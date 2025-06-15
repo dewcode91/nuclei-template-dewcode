@@ -1,0 +1,27 @@
+id: drupal-registration
+
+info:
+  name: drupal-registration
+  author: dewcode
+  severity: low
+  description: |
+    Drupal allows registration by Upper case letter bypass
+  reference:
+    - https://intigriti.com
+  tags: misconfiguration
+
+http:
+  - raw:
+      - |
+        GET /user/register HTTP/1.1
+        Host: {{Hostname}}
+
+      - |
+        GET /User/register HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 403 && status_code_2 == 200"
